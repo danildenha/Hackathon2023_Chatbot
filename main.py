@@ -1,11 +1,9 @@
 import asyncio
 
-from collections import deque
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import json
 
-stack = deque()
 
 bot = Bot(token="6141417763:AAE8EH-x1TLaGh_MCrK4aIXzrvvSV3PQFGc")
 storage = MemoryStorage()
@@ -76,7 +74,7 @@ async def change_lang(message: types.Message):
     lang_keyboard.add(types.InlineKeyboardButton(text="Українська🇺🇦", callback_data="lang_ua"),
                       types.InlineKeyboardButton(text="English🇬🇧", callback_data="lang_en"))
 
-    await message.reply(f"""Будьласка обери мову!  
+    await message.reply(f"""Будь ласка обери мову!  
 Please choose your language!""",
                         reply_markup=lang_keyboard, parse_mode="Markdown")
 
@@ -125,8 +123,7 @@ async def age_select(call: types.CallbackQuery):
             text=f"*{name}*, to choose the best tariff, you need to answer a few simple questions.",
             reply_markup=understood_keyboard_en, parse_mode="Markdown")
 
-    # Додаємо поточну функцію до стеку
-    stack.append(age_select)
+
 
 
 @dp.callback_query_handler(lambda call: call.data == 'understood')
@@ -157,9 +154,6 @@ async def undersood_handler(call: types.CallbackQuery):
         await call.message.edit_text(text="""*First question*:
 Please select your age.""", reply_markup=age_keyboard, parse_mode="Markdown")
 
-    # Додаємо поточну функцію до стеку
-    stack.append(undersood_handler)
-
 
 @dp.callback_query_handler(lambda call: call.data == 'less_than_eighteen')
 async def less_than_eighteen(call: types.CallbackQuery):
@@ -171,7 +165,7 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life = types.InlineKeyboardButton(text="📲Підключити",
                                                  url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/shkilniy/")
         not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
-        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="understood")
 
         school_life_keyboard = types.InlineKeyboardMarkup()
         school_life_keyboard.row(school_life)
@@ -179,14 +173,14 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, ми помітили, що вам менше 18-ти. Тому пропонуємо вам тариф '*Шкільний Лайф*', який зроблений спеціально для школярів.",
+            text=f"*{name}*, оскільки вам менше 18-ти. Тому пропонуємо вам тариф '*Шкільний Лайф*', який зроблений спеціально для школярів.",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
     if user_language == "en":
         school_life = types.InlineKeyboardButton(text="📲Connect",
                                                  url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/shkilniy/")
         not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
-        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="understood")
 
         school_life_keyboard = types.InlineKeyboardMarkup()
         school_life_keyboard.row(school_life)
@@ -194,10 +188,9 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, we noticed that you are under 18. That's why we offer you the '*School Life*' tariff, which is specially designed for schoolchildren.",
+            text=f"*{name}*, because you are under 18. That's why we offer you the '*School Life*' tariff, which is specially designed for schoolchildren.",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
-    stack.append(less_than_eighteen)
 
 
 # noinspection PyUnboundLocalVariable
@@ -212,7 +205,7 @@ async def more_than_eighteen(call: types.CallbackQuery):
         family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦Для сім'ї", callback_data="for_family")
         for_gadget_button = types.InlineKeyboardButton(text="💻Для Ґаджета", callback_data="for_gadget")
         what_difference_button = types.InlineKeyboardButton(text="В чому різниця❓", callback_data="what_difference")
-        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="understood")
 
         usage_select_ua = types.InlineKeyboardMarkup()
         usage_select_ua.row(own_button)
@@ -230,7 +223,7 @@ async def more_than_eighteen(call: types.CallbackQuery):
         for_gadget_button = types.InlineKeyboardButton(text="💻For Gadget", callback_data="for_gadget")
         what_difference_button = types.InlineKeyboardButton(text="What's the difference❓",
                                                             callback_data="what_difference")
-        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="understood")
 
         usage_select_en = types.InlineKeyboardMarkup()
         usage_select_en.row(own_button)
@@ -241,8 +234,6 @@ async def more_than_eighteen(call: types.CallbackQuery):
         await call.message.edit_text(
             text=f"*{name}*, for what type of use you need the tariff?", parse_mode="Markdown",
             reply_markup=usage_select_en)
-
-    stack.append(more_than_eighteen)
 
 
 @dp.callback_query_handler(lambda call: call.data == 'for_me')
@@ -257,7 +248,7 @@ async def how_much_speak(call: types.CallbackQuery):
                                                             callback_data="call_long_calls")
         everytime_on_phone_button = types.InlineKeyboardButton(text="Жити не можу без довгих розмов по телефону",
                                                                callback_data="call_everytime_on_phone")
-        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
 
         calls_keyboard_ua = types.InlineKeyboardMarkup()
         calls_keyboard_ua.row(sometimes_button)
@@ -274,7 +265,7 @@ async def how_much_speak(call: types.CallbackQuery):
                                                             callback_data="call_long_calls")
         everytime_on_phone_button = types.InlineKeyboardButton(text="Жити не можу без довгих розмов по телефону",
                                                                callback_data="call_everytime_on_phone")
-        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="back")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
 
         calls_keyboard_en = types.InlineKeyboardMarkup()
         calls_keyboard_en.row(sometimes_button)
@@ -285,16 +276,6 @@ async def how_much_speak(call: types.CallbackQuery):
         await call.message.edit_text(text=f"*{name}*, please select how often you talk by phone.",
                                      parse_mode="Markdown", reply_markup=calls_keyboard_en)
 
-
-
-@dp.callback_query_handler(lambda call: call.data == 'back')
-async def back_handler(call: types.CallbackQuery):
-    if len(stack) > 1:
-        stack.pop()
-        previous_function = stack[-1]
-        await previous_function(call)
-    else:
-        await call.message.edit_reply_markup(reply_markup=None)
 
 
 @dp.callback_query_handler()
