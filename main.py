@@ -92,7 +92,7 @@ async def start_taryf(message: types.Message):
     elif user_language == "en":
         start_keyboard_en = types.InlineKeyboardMarkup()
         start_keyboard_en.add(types.InlineKeyboardButton(text="🔎Start selection", callback_data="age_survey"))
-        await bot.send_message(user_id, f"Hello *{name}*! I will help you find the best Lifecell tariff for you!",
+        await bot.send_message(user_id, f"Hello *{name}*! I will help you to find the best Lifecell tariff!",
                                reply_markup=start_keyboard_en, parse_mode="Markdown")
 
 
@@ -107,7 +107,7 @@ async def age_select(call: types.CallbackQuery):
         understood_keyboard_ua.add(types.InlineKeyboardButton(text="✅Зрозуміло", callback_data="understood"))
 
         await call.message.edit_text(
-            text=f"*{name}*, щоб підібрати найкращий тариф вам потрібно відповісти на декілька простих запитань.",
+            text=f"*{name}*, щоб підібрати найкращий тариф вам потрібно відповісти на декілька запитань.",
             reply_markup=understood_keyboard_ua, parse_mode="Markdown")
 
     elif user_language == "en":
@@ -148,7 +148,7 @@ async def language_callback(call: types.CallbackQuery):
 
 
     elif language == "en":
-        await bot.send_message(call.message.chat.id, """You selected english language🇬🇧!
+        await bot.send_message(call.message.chat.id, """You have succesfully selected English🇬🇧!
 You can always change the language by writing /language
 Now type /start again!
 """)
