@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from jsons import *
 
-bot = Bot(token="6101040700:AAHGRNNZ1yVhNAr5cjaVEw9KFd2wrsRf3ek")
+bot = Bot(token="6101040700:AAGi3QPRHOyqnBVUTtD9Dp6yfY7Jbo_vIik")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
