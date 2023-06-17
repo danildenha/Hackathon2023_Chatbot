@@ -1,6 +1,7 @@
 [
     {
         "Tariff name": "Free Life",
+        "Tariff href": "/en/mobile/tariffs/vilniy-life-2021/",
         "Tariff price": "from 180 UAH / 4 weeks",
         "Tariff internet": "Internet: Unlimited",
         "Tariff mins": "Calls: 1600 min",
@@ -8,6 +9,7 @@
     },
     {
         "Tariff name": "Smart Life",
+        "Tariff href": "/en/mobile/tariffs/smart-life-2021/",
         "Tariff price": "from 120 UAH / 4 weeks",
         "Tariff internet": "Internet: 25 GB",
         "Tariff mins": "Calls: 800 min",
@@ -15,6 +17,7 @@
     },
     {
         "Tariff name": "Simple Life",
+        "Tariff href": "/en/mobile/tariffs/prosto-life-2021/",
         "Tariff price": "from 90 UAH / 4 weeks",
         "Tariff internet": "Internet: 8 GB",
         "Tariff mins": "Calls: 300 min",
@@ -22,6 +25,7 @@
     },
     {
         "Tariff name": "Platinum Life",
+        "Tariff href": "/en/mobile/tariffs/platinum-life-2021/",
         "Tariff price": "from 250 UAH / 4 weeks",
         "Tariff internet": "Internet: Unlimited",
         "Tariff mins": "Calls: 3000 min",
@@ -29,6 +33,7 @@
     },
     {
         "Tariff name": "School Life",
+        "Tariff href": "/en/mobile/tariffs/shkilniy/",
         "Tariff price": "150 UAH / 4 weeks",
         "Tariff internet": "Internet: 7 GB",
         "Tariff mins": "Calls: Unlimited",
@@ -36,6 +41,7 @@
     },
     {
         "Tariff name": "Gadget",
+        "Tariff href": "/en/mobile/gadget-series/",
         "Tariff price": "from 90 UAH / 12 weeks",
         "Tariff internet": "Internet: from 150 MB to unlimited",
         "Tariff mins": "Calls: from 15 min to 50 min",
@@ -43,6 +49,7 @@
     },
     {
         "Tariff name": "Smart Family",
+        "Tariff href": "/en/mobile/smart-simya-series/",
         "Tariff price": "from 375 UAH / 4 weeks",
         "Tariff internet": "Internet: from 20 GB to 50 GB",
         "Tariff mins": "Calls: from 500 min to 1500 min",

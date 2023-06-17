@@ -43,6 +43,8 @@ for parent_div in div_parent_elements:
         tariff_name_element = div.find('a', class_='MuiTypography-h3')
         tariff_name = tariff_name_element.text.strip() if tariff_name_element else None
 
+        tariff_name_element = div.find('a', class_='MuiTypography-h3')
+        tariff_href = tariff_name_element['href'] if tariff_name_element else None
 
         tariff_price_element = div.find('span', class_='MuiTypography-text5')
         tariff_price = tariff_price_element.text.strip() if tariff_price_element else None
@@ -57,6 +59,7 @@ for parent_div in div_parent_elements:
 
         result = {
             'Tariff name': tariff_name,
+            'Tariff href': tariff_href,
             'Tariff price': tariff_price,
             'Tariff internet': tariff_internet,
             'Tariff mins': tariff_mins,

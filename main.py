@@ -1,14 +1,16 @@
 import asyncio
+import openai
+import keep_alive
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from jsons import *
 
-
-bot = Bot(token="6141417763:AAE8EH-x1TLaGh_MCrK4aIXzrvvSV3PQFGc")
+bot = Bot(token="6101040700:AAHGRNNZ1yVhNAr5cjaVEw9KFd2wrsRf3ek")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
+openai.api_key = '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'
 
 
 @dp.message_handler(commands=['start'])
@@ -27,7 +29,7 @@ async def start(message: types.Message):
         await start_taryf(message)
 
     else:
-        await message.reply(f"""Привіт *{name}*, будьласка обери мову!  
+        await message.reply(f"""Привіт *{name}*, будь ласка обери мову!  
 Hi *{name}*, please choose your language!""",
                             reply_markup=lang_keyboard, parse_mode="Markdown")
 
@@ -198,7 +200,7 @@ async def more_than_eighteen(call: types.CallbackQuery):
             reply_markup=usage_select_ua)
 
     elif user_language == "en":
-        own_button = types.InlineKeyboardButton(text="🙋‍♂️For yourself", callback_data="for_me")
+        own_button = types.InlineKeyboardButton(text="🙋‍♂️For myself", callback_data="for_me")
         family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦For family", callback_data="for_family")
         for_gadget_button = types.InlineKeyboardButton(text="💻For Gadget", callback_data="for_gadget")
         what_difference_button = types.InlineKeyboardButton(text="What's the difference❓",
@@ -256,7 +258,7 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_info = get_tariff_info(tariff_name)
         back_keyboard_ua = types.InlineKeyboardMarkup()
         connect = types.InlineKeyboardButton(text="📲Підключити",
-                                                 url="https://www.lifecell.ua/uk/mobilnij-zvyazok/smart-simya-series/")
+                                             url="https://www.lifecell.ua/uk/mobilnij-zvyazok/smart-simya-series/")
         not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
         back_keyboard_ua.row(connect)
@@ -277,7 +279,7 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_info = get_tariff_info_en(tariff_name)
         back_keyboard_en = types.InlineKeyboardMarkup()
         connect = types.InlineKeyboardButton(text="📲Connect",
-                                                 url="https://www.lifecell.ua/en/mobile/smart-simya-series/")
+                                             url="https://www.lifecell.ua/en/mobile/smart-simya-series/")
         not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
         back_keyboard_en.row(connect)
@@ -304,7 +306,7 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_info = get_tariff_info(tariff_name)
         back_keyboard_ua = types.InlineKeyboardMarkup()
         connect = types.InlineKeyboardButton(text="📲Підключити",
-                                                 url="https://www.lifecell.ua/uk/mobilnij-zvyazok/gadget-series/")
+                                             url="https://www.lifecell.ua/uk/mobilnij-zvyazok/gadget-series/")
         not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
         back_keyboard_ua.row(connect)
@@ -325,7 +327,7 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_info = get_tariff_info_en(tariff_name)
         back_keyboard_en = types.InlineKeyboardMarkup()
         connect = types.InlineKeyboardButton(text="📲Connect",
-                                                 url="https://www.lifecell.ua/en/mobile/gadget-series/")
+                                             url="https://www.lifecell.ua/en/mobile/gadget-series/")
         not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
 
@@ -343,21 +345,68 @@ Price: {tariff_info["Tariff price"]}
 
 
 @dp.callback_query_handler(lambda call: call.data == 'for_me')
-async def how_much_speak(call: types.CallbackQuery):
+async def budget_handler(call: types.CallbackQuery):
     name = call.from_user.full_name
     user_id = call.from_user.id
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️Майже ніколи(до 500хв)",
-                                                         callback_data="call_almostnever")
-        sometimes_button = types.InlineKeyboardButton(text="💬Говорю при потребі(600 - 1000хв)",
-                                                      callback_data="call_sometimes")
-        like_long_calls_button = types.InlineKeyboardButton(text="🗣️Часто заговорююся(1000-2000хв)",
-                                                            callback_data="call_longcalls")
-        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Завжди на телефоні(нонад 2000хв)",
-                                                               callback_data="call_everytimeonphone")
+        budget_button_1 = types.InlineKeyboardButton(text="до 90грн",
+                                                     callback_data="budget_max-90-hrn")
+        budget_button_2 = types.InlineKeyboardButton(text="100 - 170грн",
+                                                     callback_data="budget_100-170-hrn")
+        budget_button_3 = types.InlineKeyboardButton(text="180 - 200грн",
+                                                     callback_data="budget_180-200hrn")
+        budget_button_4 = types.InlineKeyboardButton(text="понад 200грн",
+                                                     callback_data="budget_more-than-200-hrn")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
+
+        budget_keyboard_ua = types.InlineKeyboardMarkup()
+        budget_keyboard_ua.row(budget_button_1, budget_button_2)
+        budget_keyboard_ua.row(budget_button_3, budget_button_4)
+        budget_keyboard_ua.row(back_button)
+
+        await call.message.edit_text(text=f"*{name}*, будь ласка обери приблизний бюджет.",
+                                     parse_mode="Markdown", reply_markup=budget_keyboard_ua)
+
+    elif user_language == "en":
+        budget_button_1 = types.InlineKeyboardButton(text="up to 90 UAH",
+                                                     callback_data="budget_max-90-hrn")
+        budget_button_2 = types.InlineKeyboardButton(text="100 - 170 UAH",
+                                                     callback_data="budget_100-170-hrn")
+        budget_button_3 = types.InlineKeyboardButton(text="180 - 200 UAH",
+                                                     callback_data="budget_180-200hrn")
+        budget_button_4 = types.InlineKeyboardButton(text="over 200 UAH",
+                                                     callback_data="budget_more-than-200-hrn")
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
+
+        budget_keyboard_en = types.InlineKeyboardMarkup()
+        budget_keyboard_en.row(budget_button_1, budget_button_2)
+        budget_keyboard_en.row(budget_button_3, budget_button_4)
+        budget_keyboard_en.row(back_button)
+
+        await call.message.edit_text(text=f"*{name}*, please select an approximate budget.",
+                                     parse_mode="Markdown", reply_markup=budget_keyboard_en)
+
+
+@dp.callback_query_handler(lambda call: call.data.startswith('budget_'))
+async def how_much_speak(call: types.CallbackQuery):
+    budget = str(call.data.split('_')[1])
+    name = call.from_user.full_name
+    user_id = call.from_user.id
+    save_budget_choice(user_id, budget)
+    user_language = get_user_language(user_id)
+
+    if user_language == "ua":
+        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️Майже ніколи(до 500хв)",
+                                                         callback_data="call_max-500-min")
+        sometimes_button = types.InlineKeyboardButton(text="💬Говорю при потребі(600 - 1000хв)",
+                                                      callback_data="call_600-1000-min")
+        like_long_calls_button = types.InlineKeyboardButton(text="🗣️Часто заговорююся(1000-2000хв)",
+                                                            callback_data="call_1000-2000-min")
+        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Завжди на телефоні(нонад 2000хв)",
+                                                               callback_data="call_over-2000-min")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="for_me")
 
         calls_keyboard_ua = types.InlineKeyboardMarkup()
         calls_keyboard_ua.row(almost_never_button)
@@ -371,14 +420,14 @@ async def how_much_speak(call: types.CallbackQuery):
 
     elif user_language == "en":
         almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️‍Almost never (up to 500 min)",
-                                                         callback_data="call_almost_never")
-        sometimes_button = types.InlineKeyboardButton(text="💬I talk when needed (600 - 1000 min)",
-                                                      callback_data="call_sometimes")
+                                                         callback_data="call_up-to-500-min")
+        sometimes_button = types.InlineKeyboardButton(text="💬I talk when needed (600-1000 min)",
+                                                      callback_data="call_600-1000-min")
         like_long_calls_button = types.InlineKeyboardButton(text="🗣️I talk a lot (1000-2000 min)",
-                                                            callback_data="call_long_calls")
+                                                            callback_data="call_1000-2000-min")
         everytime_on_phone_button = types.InlineKeyboardButton(text="📞Always on the phone (over 2000 min)",
-                                                               callback_data="call_everytime_on_phone")
-        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
+                                                               callback_data="call_over-2000-min")
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="for_me")
 
         calls_keyboard_en = types.InlineKeyboardMarkup()
         calls_keyboard_en.row(almost_never_button)
@@ -400,12 +449,12 @@ async def internet(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        mildly_internet_button = types.InlineKeyboardButton(text="💻📲Витрачаю помірно5-10гб",
-                                                            callback_data="mobdata_mildlyinternet")
+        mildly_internet_button = types.InlineKeyboardButton(text="💻📲Витрачаю помірно 5-10гб",
+                                                            callback_data="mobdata_5-10gb")
         more_internet_button = types.InlineKeyboardButton(text="📶💾Витрачаю доволі багато 10гб+",
-                                                          callback_data="mobdata_muchinternet")
+                                                          callback_data="mobdata_10gb+")
         everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Завжди онлайн 25гб+",
-                                                             callback_data="mobdata_everytimeonline")
+                                                             callback_data="mobdata_25gb+")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="for_me")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
@@ -418,11 +467,11 @@ async def internet(call: types.CallbackQuery):
                                      parse_mode="Markdown", reply_markup=internet_keyboard_ua)
     elif user_language == "en":
         mildly_internet_button = types.InlineKeyboardButton(text="💻📲I spend moderately 5-10gb",
-                                                            callback_data="mobdata_mildly_internet")
+                                                            callback_data="mobdata_5-10gb")
         more_internet_button = types.InlineKeyboardButton(text="📶💾I spend a lot 10gb+",
-                                                          callback_data="mobdata_more_internet")
+                                                          callback_data="mobdata_10gb+")
         everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Always online 25gb+",
-                                                             callback_data="mobdata_everytime_online")
+                                                             callback_data="mobdata_25gb+")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="for_me")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
@@ -438,6 +487,7 @@ async def internet(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('mobdata_'))
 async def social_handler(call: types.CallbackQuery):
     mob_data = str(call.data.split('_')[1])
+
     name = call.from_user.full_name
     user_id = call.from_user.id
     save_mobdata_choice(user_id, mob_data)
@@ -513,12 +563,184 @@ async def result(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
+        await call.message.edit_text(text="Зачекайте, бот обробляє ваші відповіді!",
+                                     parse_mode="Markdown")
+        await bot.send_chat_action(user_id, 'typing')
 
-        await call.message.edit_text(text=f"*{name}*, ваш тариф - ще немає парсеру і вибору тарифів)",
+        def load_tariffs():
+            with open('tariffs.json', encoding='utf-8') as f:
+                tariffs = json.load(f)
+
+            restricted_tariffs = ['Шкільний Лайф', "Смарт Сім'я", 'Ґаджет']
+
+            # Фільтруємо обмежені тарифи
+            tariffs = [tariff for tariff in tariffs if tariff['Tariff name'] not in restricted_tariffs]
+
+            return tariffs
+
+        tariffs = load_tariffs()
+
+        # Завантажуємо відповіді користувача з файлу JSON
+        def load_user_answers():
+            with open('user_answers.json', encoding='utf-8') as f:
+                return json.load(f)
+
+        user_answers = load_user_answers()
+
+        if user_id in user_answers:
+            choices = user_answers[user_id]
+        else:
+            choices = {}
+
+        # Підготовка промпта
+        prompt = "Оберіть найкращий тариф для користувача на основі його виборів, відповідь: найкращий тариф для користувача - назва тарифу:\n"
+        prompt += "Телефонні дзвінки: {}\n".format(choices.get('phone_call', ''))
+        prompt += "Мобільний інтернет: {}\n".format(choices.get('mob_data', ''))
+        prompt += "Соціальні мережі: {}\n\n".format(choices.get('social', ''))
+        prompt += "найменше уваги звертати на Бюджет: {}\n\n".format(choices.get('budget', ''))
+
+        prompt += "Перелік тарифів:\n"
+        for tariff in tariffs:
+            tariff_info = "\nНазва: {}\nЦіна: {}\nІнтернет: {}\nДзвінки: {}\n".format(
+                tariff['Tariff name'], tariff['Tariff price'], tariff['Tariff internet'], tariff['Tariff mins']
+            )
+            prompt += tariff_info
+
+        # Виклик OpenAI API для отримання відповіді моделі
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=256,
+            stop=None,
+            temperature=1
+        )
+
+        best_tariff = response.choices[0].text.strip()
+
+        tariff_link = None
+        tariff_price = None
+        tariff_internet = None
+        tariff_mins = None
+        tariff_bezlim = None
+        back_keyboard_ua = None
+
+        for tariff in tariffs:
+            if tariff['Tariff name'] in best_tariff:
+                tariff_link = tariff['Tariff href']
+                tariff_price = tariff["Tariff price"]
+                tariff_internet = tariff["Tariff internet"]
+                tariff_mins = tariff["Tariff mins"]
+                tariff_bezlim = tariff["Social bezlim"]
+
+                break
+
+        if tariff_link:
+            back_keyboard_ua = types.InlineKeyboardMarkup()
+            connect = types.InlineKeyboardButton(text="📲Підключити",
+                                                 url=f"https://www.lifecell.ua/{tariff_link}")
+            not_interest = types.InlineKeyboardButton(text="🌐Всі тарифи",
+                                                      url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/")
+            back_button = types.InlineKeyboardButton(text="🔄Обрати наново", callback_data="age_survey")
+            back_keyboard_ua.row(connect)
+            back_keyboard_ua.row(not_interest)
+            back_keyboard_ua.row(back_button)
+
+        await call.message.edit_text(text=f"""*{best_tariff}*
+
+Ціна: {tariff_price}
+{tariff_internet}
+{tariff_mins}
+{tariff_bezlim}""", parse_mode="Markdown", reply_markup=back_keyboard_ua)
+
+    if user_language == "en":
+        await call.message.edit_text(text="Wait, the bot is processing your answers!",
                                      parse_mode="Markdown")
-    elif user_language == "en":
-        await call.message.edit_text(text=f"*{name}*, your tariff - there is no parser and tariff selection yet)",
-                                     parse_mode="Markdown")
+        await bot.send_chat_action(user_id, 'typing')
+
+        def load_tariffs():
+            with open('tariffs.json', encoding='utf-8') as f:
+                tariffs = json.load(f)
+
+            restricted_tariffs = ['School Life', 'Smart Family', 'Gadget']
+
+            # Filter the restricted tariffs
+            tariffs = [tariff for tariff in tariffs if tariff['Tariff name'] not in restricted_tariffs]
+
+            return tariffs
+
+        tariffs = load_tariffs()
+
+        # Load user answers from the JSON file
+        def load_user_answers():
+            with open('user_answers.json', encoding='utf-8') as f:
+                return json.load(f)
+
+        user_answers = load_user_answers()
+
+        if user_id in user_answers:
+            choices = user_answers[user_id]
+        else:
+            choices = {}
+
+        # Preparing the prompt
+        prompt = "Select the best tariff for the user based on their choices, the answer is: the best tariff for the user is the name of the tariff:\n"
+        prompt += "Phone calls: {}\n".format(choices.get('phone_call', ''))
+        prompt += "Mobile internet: {}\n".format(choices.get('mob_data', ''))
+        prompt += "Social media: {}\n\n".format(choices.get('social', ''))
+        prompt += "Least important to pay attention to Budget: {}\n\n".format(choices.get('budget', ''))
+
+        prompt += "List of tariffs:\n"
+        for tariff in tariffs:
+            tariff_info = "\nName: {}\nPrice: {}\nInternet: {}\nCalls: {}\n".format(
+                tariff['Tariff name'], tariff['Tariff price'], tariff['Tariff internet'], tariff['Tariff mins']
+            )
+            prompt += tariff_info
+
+        # Calling the OpenAI API to get the model response
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=256,
+            stop=None,
+            temperature=1
+        )
+
+        best_tariff = response.choices[0].text.strip()
+
+        tariff_link = None
+        tariff_price = None
+        tariff_internet = None
+        tariff_mins = None
+        tariff_bezlim = None
+        back_keyboard_en = None
+
+        for tariff in tariffs:
+            if tariff['Tariff name'] in best_tariff:
+                tariff_link = tariff['Tariff href']
+                tariff_price = tariff["Tariff price"]
+                tariff_internet = tariff["Tariff internet"]
+                tariff_mins = tariff["Tariff mins"]
+                tariff_bezlim = tariff["Social bezlim"]
+
+                break
+
+        if tariff_link:
+            back_keyboard_en = types.InlineKeyboardMarkup()
+            connect = types.InlineKeyboardButton(text="📲Connect",
+                                                 url=f"https://www.lifecell.ua/{tariff_link}")
+            not_interest = types.InlineKeyboardButton(text="🌐All tariffs",
+                                                      url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/")
+            back_button = types.InlineKeyboardButton(text="🔄Choose again", callback_data="age_survey")
+            back_keyboard_en.row(connect)
+            back_keyboard_en.row(not_interest)
+            back_keyboard_en.row(back_button)
+
+        await call.message.edit_text(text=f"""*{best_tariff}*)
+
+    Price: {tariff_price}
+    {tariff_internet}
+    {tariff_mins}
+    {tariff_bezlim}""", parse_mode="Markdown", reply_markup=back_keyboard_en)
 
 
 @dp.callback_query_handler()
@@ -547,6 +769,8 @@ Now type /start again!
 
 
 if __name__ == '__main__':
+    keep_alive.keep_alive()
+
     from aiogram import executor
 
     executor.start_polling(dp, skip_updates=True)

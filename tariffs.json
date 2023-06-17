@@ -1,6 +1,7 @@
 [
     {
         "Tariff name": "Вільний Лайф",
+        "Tariff href": "/uk/mobilnij-zvyazok/taryfy/vilniy-life-2021/",
         "Tariff price": "від 180 грн / 4 тижні",
         "Tariff internet": "Інтернет: Безліміт",
         "Tariff mins": "Дзвінки: 1600 хв",
@@ -8,6 +9,7 @@
     },
     {
         "Tariff name": "Смарт Лайф",
+        "Tariff href": "/uk/mobilnij-zvyazok/taryfy/smart-life-2021/",
         "Tariff price": "від 120 грн / 4 тижні",
         "Tariff internet": "Інтернет: 25 ГБ",
         "Tariff mins": "Дзвінки: 800 хв",
@@ -15,6 +17,7 @@
     },
     {
         "Tariff name": "Просто Лайф",
+        "Tariff href": "/uk/mobilnij-zvyazok/taryfy/prosto-life-2021/",
         "Tariff price": "від 90 грн / 4 тижні",
         "Tariff internet": "Інтернет: 8 ГБ",
         "Tariff mins": "Дзвінки: 300 хв",
@@ -22,6 +25,7 @@
     },
     {
         "Tariff name": "Platinum Лайф",
+        "Tariff href": "/uk/mobilnij-zvyazok/taryfy/platinum-life-2021/",
         "Tariff price": "від 250 грн / 4 тижні",
         "Tariff internet": "Інтернет: Безліміт",
         "Tariff mins": "Дзвінки: 3000 хв",
@@ -29,6 +33,7 @@
     },
     {
         "Tariff name": "Шкільний Лайф",
+        "Tariff href": "/uk/mobilnij-zvyazok/taryfy/shkilniy/",
         "Tariff price": "150 грн / 4 тижні",
         "Tariff internet": "Інтернет: 7 ГБ",
         "Tariff mins": "Дзвінки: Безліміт",
@@ -36,6 +41,7 @@
     },
     {
         "Tariff name": "Ґаджет",
+        "Tariff href": "/uk/mobilnij-zvyazok/gadget-series/",
         "Tariff price": "від 90 грн / 12 тижнів",
         "Tariff internet": "Інтернет: від 150 МБ до безліміту",
         "Tariff mins": "Дзвінки: від 15 хв до 50 хв",
@@ -43,6 +49,7 @@
     },
     {
         "Tariff name": "Смарт Сім'я",
+        "Tariff href": "/uk/mobilnij-zvyazok/smart-simya-series/",
         "Tariff price": "від 375 грн / 4 тижні",
         "Tariff internet": "Інтернет: від 20 ГБ до 50 ГБ",
         "Tariff mins": "Дзвінки: від 500 хв до 1500 хв",
