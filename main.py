@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import json
 
-
 bot = Bot(token="6141417763:AAE8EH-x1TLaGh_MCrK4aIXzrvvSV3PQFGc")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
@@ -14,7 +13,7 @@ def save_language_choice(user_id, language):
     data = {}
 
     try:
-        with open('language_data.json', 'r') as file:
+        with open('answers/language_data.json', 'r') as file:
             data = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         pass
@@ -24,13 +23,13 @@ def save_language_choice(user_id, language):
     else:
         data[str(user_id)] = language
 
-    with open('language_data.json', 'w') as file:
+    with open('answers/language_data.json', 'w') as file:
         json.dump(data, file)
 
 
 def check_user_exists(user_id):
     try:
-        with open('language_data.json', 'r') as file:
+        with open('answers/language_data.json', 'r') as file:
             data = json.load(file)
             return str(user_id) in data
     except (FileNotFoundError, json.JSONDecodeError):
@@ -39,7 +38,7 @@ def check_user_exists(user_id):
 
 def get_user_language(user_id):
     try:
-        with open('language_data.json', 'r') as file:
+        with open('answers/language_data.json', 'r') as file:
             data = json.load(file)
             return data.get(str(user_id))
     except (FileNotFoundError, json.JSONDecodeError):
@@ -124,8 +123,6 @@ async def age_select(call: types.CallbackQuery):
             reply_markup=understood_keyboard_en, parse_mode="Markdown")
 
 
-
-
 @dp.callback_query_handler(lambda call: call.data == 'understood')
 async def undersood_handler(call: types.CallbackQuery):
     user_id = call.from_user.id
@@ -192,7 +189,6 @@ async def less_than_eighteen(call: types.CallbackQuery):
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
 
-
 # noinspection PyUnboundLocalVariable
 @dp.callback_query_handler(lambda call: call.data == 'more_than_eighteen')
 async def more_than_eighteen(call: types.CallbackQuery):
@@ -236,6 +232,35 @@ async def more_than_eighteen(call: types.CallbackQuery):
             reply_markup=usage_select_en)
 
 
+@dp.callback_query_handler(lambda call: call.data == 'what_difference')
+async def what_difference_handler(call: types.CallbackQuery):
+    user_id = call.from_user.id
+    user_language = get_user_language(user_id)
+
+    if user_language == "ua":
+        back_keyboard_ua = types.InlineKeyboardMarkup()
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
+        back_keyboard_ua.row(back_button)
+
+        await call.message.edit_text(
+            text=f"""
+*Смарт Сім'я* - тариф пропонує ідеальний варіант для сімей, які бажають забезпечити доступ до зв'язку всім своїм членам. Він надає спільний пакет ресурсів, таких як хвилини розмов, повідомлення і обсяг даних, які можна використовувати для всіх номерів у сім'ї. Це дозволяє ефективно керувати витратами ресурсів і зберігати кошти, порівняно з окремими індивідуальними тарифами для кожного члена сім'ї.
+
+*Ґаджет* - буде прекрасним варіантом для людей, які використовують багато різних пристроїв і потребують постійного доступу до Інтернету. Цей тариф зазвичай надає великий обсяг даних з високою швидкістю передачі, спеціально налаштований для потреб безперервного з'єднання.""",
+            reply_markup=back_keyboard_ua, parse_mode="Markdown")
+
+    elif user_language == "en":
+        back_keyboard_en = types.InlineKeyboardMarkup()
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
+        back_keyboard_en.row(back_button)
+        await call.message.edit_text(
+            text=f"""
+*Smart Family* - the tariff offers an ideal option for families who want to provide access to communication to all their members. It provides a shared package of resources, such as talk minutes, messages and data, which can be used for all numbers in the family. This allows you to effectively manage resource consumption and save money compared to separate individual tariffs for each family member.
+
+*Gadget* - is a great option for people who use many different devices and need constant access to the Internet. This tariff usually provides a large amount of data at high speeds, specially configured for the needs of a continuous connection.""",
+            reply_markup=back_keyboard_en, parse_mode="Markdown")
+
+
 @dp.callback_query_handler(lambda call: call.data == 'for_family')
 async def for_family_handler(call: types.CallbackQuery):
     name = call.from_user.full_name
@@ -258,6 +283,7 @@ async def for_family_handler(call: types.CallbackQuery):
         await call.message.edit_text(
             text=f"*{name}*, there are no family tariffs yet",
             reply_markup=back_keyboard_en, parse_mode="Markdown")
+
 
 @dp.callback_query_handler(lambda call: call.data == 'for_gadget')
 async def for_family_handler(call: types.CallbackQuery):
@@ -282,6 +308,7 @@ async def for_family_handler(call: types.CallbackQuery):
             text=f"*{name}*, there are no gadget tariffs  yet",
             reply_markup=back_keyboard_en, parse_mode="Markdown")
 
+
 @dp.callback_query_handler(lambda call: call.data == 'for_me')
 async def how_much_speak(call: types.CallbackQuery):
     name = call.from_user.full_name
@@ -289,14 +316,16 @@ async def how_much_speak(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        sometimes_button = types.InlineKeyboardButton(text="Балакаю по необхідності", callback_data="call_sometimes")
-        like_long_calls_button = types.InlineKeyboardButton(text="Частенько можу заговоритись",
-                                                            callback_data="call_long_calls")
-        everytime_on_phone_button = types.InlineKeyboardButton(text="Жити не можу без довгих розмов по телефону",
-                                                               callback_data="call_everytime_on_phone")
+        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️Майже ніколи(до 500хв)", callback_data="call_almostnever")
+        sometimes_button = types.InlineKeyboardButton(text="💬Говорю при потребі(600 - 1000хв)", callback_data="call_sometimes")
+        like_long_calls_button = types.InlineKeyboardButton(text="🗣️Часто заговорююся(1000-2000хв)",
+                                                            callback_data="call_longcalls")
+        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Завжди на телефоні(нонад 2000хв)",
+                                                               callback_data="call_everytimeonphone")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
 
         calls_keyboard_ua = types.InlineKeyboardMarkup()
+        calls_keyboard_ua.row(almost_never_button)
         calls_keyboard_ua.row(sometimes_button)
         calls_keyboard_ua.row(like_long_calls_button)
         calls_keyboard_ua.row(everytime_on_phone_button)
@@ -306,14 +335,14 @@ async def how_much_speak(call: types.CallbackQuery):
                                      parse_mode="Markdown", reply_markup=calls_keyboard_ua)
 
     elif user_language == "en":
-        sometimes_button = types.InlineKeyboardButton(text="I talk as needed", callback_data="call_sometimes")
-        like_long_calls_button = types.InlineKeyboardButton(text="I can often talk",
-                                                            callback_data="call_long_calls")
-        everytime_on_phone_button = types.InlineKeyboardButton(text="I can't live without long conversations on the phone",
-                                                               callback_data="call_everytime_on_phone")
+        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️‍Almost never (up to 500 min)", callback_data="call_almost_never")
+        sometimes_button = types.InlineKeyboardButton(text="💬I talk when needed (600 - 1000 min)", callback_data="call_sometimes")
+        like_long_calls_button = types.InlineKeyboardButton(text="🗣️I talk a lot (1000-2000 min)",  callback_data="call_long_calls")
+        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Always on the phone (over 2000 min)", callback_data="call_everytime_on_phone")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
 
         calls_keyboard_en = types.InlineKeyboardMarkup()
+        calls_keyboard_en.row(almost_never_button)
         calls_keyboard_en.row(sometimes_button)
         calls_keyboard_en.row(like_long_calls_button)
         calls_keyboard_en.row(everytime_on_phone_button)
@@ -322,8 +351,9 @@ async def how_much_speak(call: types.CallbackQuery):
         await call.message.edit_text(text=f"*{name}*, please select how often you talk by phone.",
                                      parse_mode="Markdown", reply_markup=calls_keyboard_en)
 
-@dp.callback_query_handler(lambda call:call.data.startswith('call_'))
-async def internet_handler(call: types.CallbackQuery):
+
+@dp.callback_query_handler(lambda call: call.data.startswith('call_'))
+async def internet(call: types.CallbackQuery):
     phone_call = str(call.data.split('_')[1])
     print(phone_call)
     name = call.from_user.full_name
@@ -331,17 +361,15 @@ async def internet_handler(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        small_internet_button = types.InlineKeyboardButton(text="Майже не витрачаю", callback_data="mobdata_small_internet")
-        mildly_internet_button = types.InlineKeyboardButton(text="Витрачаю помірно",
+        mildly_internet_button = types.InlineKeyboardButton(text="💻📲Витрачаю помірно5-10гб",
                                                             callback_data="mobdata_mildly_internet")
-        more_internet_button = types.InlineKeyboardButton(text="Витрачаю доволі багато",
-                                                               callback_data="mobdata_more_internet")
-        everytime_online_button = types.InlineKeyboardButton(text="Завжди онлайн",
-                                                               callback_data="mobdata_everytime_online")
+        more_internet_button = types.InlineKeyboardButton(text="📶💾Витрачаю доволі багато 10гб+",
+                                                          callback_data="mobdata_more_internet")
+        everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Завжди онлайн 25гб+",
+                                                             callback_data="mobdata_everytime_online")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="for_me")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
-        internet_keyboard_ua.row(small_internet_button)
         internet_keyboard_ua.row(mildly_internet_button)
         internet_keyboard_ua.row(more_internet_button)
         internet_keyboard_ua.row(everytime_online_button)
@@ -350,17 +378,15 @@ async def internet_handler(call: types.CallbackQuery):
         await call.message.edit_text(text=f"*{name}*, скільки інтернет трафіку ви використовуєте?",
                                      parse_mode="Markdown", reply_markup=internet_keyboard_ua)
     elif user_language == "en":
-        small_internet_button = types.InlineKeyboardButton(text="I almost don't spend", callback_data="mobdata_small_internet")
-        mildly_internet_button = types.InlineKeyboardButton(text="I spend moderately",
+        mildly_internet_button = types.InlineKeyboardButton(text="💻📲I spend moderately 5-10gb",
                                                             callback_data="mobdata_mildly_internet")
-        more_internet_button = types.InlineKeyboardButton(text="I spend a lot",
-                                                               callback_data="mobdata_more_internet")
-        everytime_online_button = types.InlineKeyboardButton(text="Always online",
-                                                               callback_data="mobdata_everytime_online")
+        more_internet_button = types.InlineKeyboardButton(text="📶💾I spend a lot 10gb+",
+                                                          callback_data="mobdata_more_internet")
+        everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Always online 25gb+",
+                                                             callback_data="mobdata_everytime_online")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="for_me")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
-        internet_keyboard_ua.row(small_internet_button)
         internet_keyboard_ua.row(mildly_internet_button)
         internet_keyboard_ua.row(more_internet_button)
         internet_keyboard_ua.row(everytime_online_button)
@@ -369,7 +395,8 @@ async def internet_handler(call: types.CallbackQuery):
         await call.message.edit_text(text=f"*{name}*, how much internet traffic do you use?",
                                      parse_mode="Markdown", reply_markup=internet_keyboard_ua)
 
-@dp.callback_query_handler(lambda call:call.data.startswith('mobdata_'))
+
+@dp.callback_query_handler(lambda call: call.data.startswith('mobdata_'))
 async def social_handler(call: types.CallbackQuery):
     mob_data = str(call.data.split('_')[1])
     print(mob_data)
@@ -379,9 +406,9 @@ async def social_handler(call: types.CallbackQuery):
 
     if user_language == "ua":
 
-        yes_social_button = types.InlineKeyboardButton(text="Так", callback_data="social_yes")
-        no_social_button = types.InlineKeyboardButton(text="Ні",
-                                                            callback_data="social_no")
+        yes_social_button = types.InlineKeyboardButton(text="Так📱", callback_data="social_yes")
+        no_social_button = types.InlineKeyboardButton(text="Ні📵",
+                                                      callback_data="social_no")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="call_")
 
         social_keyboard_ua = types.InlineKeyboardMarkup()
@@ -392,9 +419,9 @@ async def social_handler(call: types.CallbackQuery):
                                      parse_mode="Markdown", reply_markup=social_keyboard_ua)
     elif user_language == "en":
 
-        yes_social_button = types.InlineKeyboardButton(text="Yes", callback_data="social_yes")
-        no_social_button = types.InlineKeyboardButton(text="No",
-                                                            callback_data="social_no")
+        yes_social_button = types.InlineKeyboardButton(text="Yes📱", callback_data="social_yes")
+        no_social_button = types.InlineKeyboardButton(text="No📵",
+                                                      callback_data="social_no")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="call_")
 
         social_keyboard_ua = types.InlineKeyboardMarkup()
@@ -404,8 +431,9 @@ async def social_handler(call: types.CallbackQuery):
         await call.message.edit_text(text=f"*{name}*, do you consider yourself an active user of social media?",
                                      parse_mode="Markdown", reply_markup=social_keyboard_ua)
 
-@dp.callback_query_handler(lambda call:call.data.startswith('social_'))
-async def social_handler(call: types.CallbackQuery):
+
+@dp.callback_query_handler(lambda call: call.data.startswith('social_'))
+async def finish(call: types.CallbackQuery):
     social = str(call.data.split('_')[1])
     print(social)
     name = call.from_user.full_name
@@ -414,30 +442,33 @@ async def social_handler(call: types.CallbackQuery):
 
     if user_language == "ua":
 
-        show_result_ua_button = types.InlineKeyboardButton(text="Дізнатись результат", callback_data="result")
+        show_result_ua_button = types.InlineKeyboardButton(text="Дізнатись результат✅", callback_data="result")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="mobdata_")
 
         result_keyboard_ua = types.InlineKeyboardMarkup()
         result_keyboard_ua.row(show_result_ua_button)
         result_keyboard_ua.row(back_button)
 
-        await call.message.edit_text(text=f"*{name}*, ви дали відповідь на всі питання, натисніть на кнопку щоб дізнатись результат!",
-                                     parse_mode="Markdown", reply_markup=result_keyboard_ua)
+        await call.message.edit_text(
+            text=f"*{name}*, ви дали відповідь на всі питання, натисніть на кнопку щоб дізнатись результат!",
+            parse_mode="Markdown", reply_markup=result_keyboard_ua)
 
     elif user_language == "en":
 
-        show_result_ua_button = types.InlineKeyboardButton(text="Result", callback_data="result")
+        show_result_ua_button = types.InlineKeyboardButton(text="Result✅", callback_data="result")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="mobdata_")
 
         result_keyboard_ua = types.InlineKeyboardMarkup()
         result_keyboard_ua.row(show_result_ua_button)
         result_keyboard_ua.row(back_button)
 
-        await call.message.edit_text(text=f"*{name}*, you have answered all questions, click on the button to find out the result!",
-                                     parse_mode="Markdown", reply_markup=result_keyboard_ua)
+        await call.message.edit_text(
+            text=f"*{name}*, you have answered all questions, click on the button to find out the result!",
+            parse_mode="Markdown", reply_markup=result_keyboard_ua)
 
-@dp.callback_query_handler(lambda call:call.data.startswith('result'))
-async def social_handler(call: types.CallbackQuery):
+
+@dp.callback_query_handler(lambda call: call.data.startswith('result'))
+async def result(call: types.CallbackQuery):
     name = call.from_user.full_name
     user_id = call.from_user.id
     user_language = get_user_language(user_id)
