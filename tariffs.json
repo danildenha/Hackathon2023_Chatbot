@@ -1,0 +1,51 @@
+[
+    {
+        "Tariff name": "Вільний Лайф",
+        "Tariff price": "180 грн",
+        "Tariff internet": "Інтернет: Безліміт",
+        "Tariff mins": "Дзвінки: 1600 хв",
+        "Social bezlim": "Безліміт на lifecell після використання хвилин на всі номери"
+    },
+    {
+        "Tariff name": "Смарт Лайф",
+        "Tariff price": "120 грн",
+        "Tariff internet": "Інтернет: 25 ГБ",
+        "Tariff mins": "Дзвінки: 800 хв",
+        "Social bezlim": "Безліміт на lifecell після використання хвилин на всі мобільні номери"
+    },
+    {
+        "Tariff name": "Просто Лайф",
+        "Tariff price": "90 грн",
+        "Tariff internet": "Інтернет: 8 ГБ",
+        "Tariff mins": "Дзвінки: 300 хв",
+        "Social bezlim": "Безліміт на lifecell після використання хвилин на всі мобільні номери"
+    },
+    {
+        "Tariff name": "Platinum Лайф",
+        "Tariff price": "250 грн",
+        "Tariff internet": "Інтернет: Безліміт",
+        "Tariff mins": "Дзвінки: 3000 хв",
+        "Social bezlim": "Безліміт на lifecell після використання хвилин на всі номери"
+    },
+    {
+        "Tariff name": "Шкільний Лайф",
+        "Tariff price": "150 грн",
+        "Tariff internet": "Інтернет: 7 ГБ",
+        "Tariff mins": "Дзвінки: Безліміт",
+        "Social bezlim": "Безліміт на соціальні мережі та месенджери"
+    },
+    {
+        "Tariff name": "Ґаджет",
+        "Tariff price": "90 грн",
+        "Tariff internet": "Інтернет: від 150 МБ до безліміту",
+        "Tariff mins": "Дзвінки: від 15 хв до 50 хв",
+        "Social bezlim": "Інтернет у кожен пристрій"
+    },
+    {
+        "Tariff name": "Смарт Сім'я",
+        "Tariff price": "375 грн",
+        "Tariff internet": "Інтернет: від 20 ГБ до 50 ГБ",
+        "Tariff mins": "Дзвінки: від 500 хв до 1500 хв",
+        "Social bezlim": "Безлімітні дзвінки на номери lifecell"
+    }
+]
