@@ -8,7 +8,7 @@ This project is a chatbot created for the "GoITeens" hackathon by Team "Кібе
 
 # Technologies
 
-    -Python 3.7
+    -Python 3.10
     -Aiogram library
     -ChatGPT API
     -Json module
