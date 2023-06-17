@@ -10,7 +10,7 @@ bot = Bot(token="6101040700:AAHGRNNZ1yVhNAr5cjaVEw9KFd2wrsRf3ek")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 
 @dp.message_handler(commands=['start'])
@@ -108,7 +108,7 @@ async def undersood_handler(call: types.CallbackQuery):
         age_keyboard.row(back_button)
 
         await call.message.edit_text(text="""*Перше запитання*:
-Будьласка оберіть ваш вік:""", reply_markup=age_keyboard, parse_mode="Markdown")
+Будь ласка оберіть ваш вік:""", reply_markup=age_keyboard, parse_mode="Markdown")
     elif user_language == "en":
         less_than_eighteen = types.InlineKeyboardButton(text="Below 18", callback_data="less_than_eighteen")
         more_than_eighteen = types.InlineKeyboardButton(text="Above 18", callback_data="more_than_eighteen")
@@ -175,7 +175,6 @@ Price: {tariff_info["Tariff price"]}
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
 
-# noinspection PyUnboundLocalVariable
 @dp.callback_query_handler(lambda call: call.data == 'more_than_eighteen')
 async def more_than_eighteen(call: types.CallbackQuery):
     name = call.from_user.full_name
@@ -415,7 +414,7 @@ async def how_much_speak(call: types.CallbackQuery):
         calls_keyboard_ua.row(everytime_on_phone_button)
         calls_keyboard_ua.row(back_button)
 
-        await call.message.edit_text(text=f"*{name}*, будьласка обери як часто ти спілкуєшся по телефону.",
+        await call.message.edit_text(text=f"*{name}*, будь ласка обери як часто ти спілкуєшся по телефону.",
                                      parse_mode="Markdown", reply_markup=calls_keyboard_ua)
 
     elif user_language == "en":
@@ -558,7 +557,6 @@ async def finish(call: types.CallbackQuery):
 
 @dp.callback_query_handler(lambda call: call.data.startswith('result'))
 async def result(call: types.CallbackQuery):
-    name = call.from_user.full_name
     user_id = call.from_user.id
     user_language = get_user_language(user_id)
 
@@ -573,14 +571,12 @@ async def result(call: types.CallbackQuery):
 
             restricted_tariffs = ['Шкільний Лайф', "Смарт Сім'я", 'Ґаджет']
 
-            # Фільтруємо обмежені тарифи
             tariffs = [tariff for tariff in tariffs if tariff['Tariff name'] not in restricted_tariffs]
 
             return tariffs
 
         tariffs = load_tariffs()
 
-        # Завантажуємо відповіді користувача з файлу JSON
         def load_user_answers():
             with open('user_answers.json', encoding='utf-8') as f:
                 return json.load(f)
@@ -592,8 +588,7 @@ async def result(call: types.CallbackQuery):
         else:
             choices = {}
 
-        # Підготовка промпта
-        prompt = "Оберіть найкращий тариф для користувача на основі його виборів, відповідь: найкращий тариф для користувача - назва тарифу:\n"
+        prompt = "Оберіть найкращий тариф для мене на основі моїх виборів, відповідь: найкращий тариф для вас - назва тарифу:\n"
         prompt += "Телефонні дзвінки: {}\n".format(choices.get('phone_call', ''))
         prompt += "Мобільний інтернет: {}\n".format(choices.get('mob_data', ''))
         prompt += "Соціальні мережі: {}\n\n".format(choices.get('social', ''))
@@ -606,7 +601,6 @@ async def result(call: types.CallbackQuery):
             )
             prompt += tariff_info
 
-        # Виклик OpenAI API для отримання відповіді моделі
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
@@ -658,19 +652,17 @@ async def result(call: types.CallbackQuery):
         await bot.send_chat_action(user_id, 'typing')
 
         def load_tariffs():
-            with open('tariffs.json', encoding='utf-8') as f:
+            with open('tariffs_en.json', encoding='utf-8') as f:
                 tariffs = json.load(f)
 
             restricted_tariffs = ['School Life', 'Smart Family', 'Gadget']
 
-            # Filter the restricted tariffs
             tariffs = [tariff for tariff in tariffs if tariff['Tariff name'] not in restricted_tariffs]
 
             return tariffs
 
         tariffs = load_tariffs()
 
-        # Load user answers from the JSON file
         def load_user_answers():
             with open('user_answers.json', encoding='utf-8') as f:
                 return json.load(f)
@@ -682,8 +674,7 @@ async def result(call: types.CallbackQuery):
         else:
             choices = {}
 
-        # Preparing the prompt
-        prompt = "Select the best tariff for the user based on their choices, the answer is: the best tariff for the user is the name of the tariff:\n"
+        prompt = "Select the best tariff for nr based on my choices, answer only on english the answer is: the best tariff for you is the name of the tariff:\n"
         prompt += "Phone calls: {}\n".format(choices.get('phone_call', ''))
         prompt += "Mobile internet: {}\n".format(choices.get('mob_data', ''))
         prompt += "Social media: {}\n\n".format(choices.get('social', ''))
@@ -696,7 +687,6 @@ async def result(call: types.CallbackQuery):
             )
             prompt += tariff_info
 
-        # Calling the OpenAI API to get the model response
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
@@ -737,10 +727,10 @@ async def result(call: types.CallbackQuery):
 
         await call.message.edit_text(text=f"""*{best_tariff}*)
 
-    Price: {tariff_price}
-    {tariff_internet}
-    {tariff_mins}
-    {tariff_bezlim}""", parse_mode="Markdown", reply_markup=back_keyboard_en)
+Price: {tariff_price}
+{tariff_internet}
+{tariff_mins}
+{tariff_bezlim}""", parse_mode="Markdown", reply_markup=back_keyboard_en)
 
 
 @dp.callback_query_handler()
