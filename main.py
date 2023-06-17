@@ -10,7 +10,7 @@ bot = Bot(token="6101040700:AAHGRNNZ1yVhNAr5cjaVEw9KFd2wrsRf3ek")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 
 @dp.message_handler(commands=['start'])
@@ -182,8 +182,8 @@ async def more_than_eighteen(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        own_button = types.InlineKeyboardButton(text="🙋‍♂️Для себе", callback_data="for_me")
-        family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦Для сім'ї", callback_data="for_family")
+        own_button = types.InlineKeyboardButton(text="🙋‍♂️Для Себе", callback_data="for_me")
+        family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦Для Сім'ї", callback_data="for_family")
         for_gadget_button = types.InlineKeyboardButton(text="💻Для Ґаджета", callback_data="for_gadget")
         what_difference_button = types.InlineKeyboardButton(text="В чому різниця❓", callback_data="what_difference")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="understood")
@@ -199,8 +199,8 @@ async def more_than_eighteen(call: types.CallbackQuery):
             reply_markup=usage_select_ua)
 
     elif user_language == "en":
-        own_button = types.InlineKeyboardButton(text="🙋‍♂️For myself", callback_data="for_me")
-        family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦For family", callback_data="for_family")
+        own_button = types.InlineKeyboardButton(text="🙋‍♂️For Myself", callback_data="for_me")
+        family_button = types.InlineKeyboardButton(text="👨‍👩‍👧‍👦For Family", callback_data="for_family")
         for_gadget_button = types.InlineKeyboardButton(text="💻For Gadget", callback_data="for_gadget")
         what_difference_button = types.InlineKeyboardButton(text="What's the difference❓",
                                                             callback_data="what_difference")
@@ -454,7 +454,7 @@ async def internet(call: types.CallbackQuery):
                                                           callback_data="mobdata_10gb+")
         everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Завжди онлайн 25гб+",
                                                              callback_data="mobdata_25gb+")
-        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="for_me")
+        back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="budget_")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
         internet_keyboard_ua.row(mildly_internet_button)
@@ -471,7 +471,7 @@ async def internet(call: types.CallbackQuery):
                                                           callback_data="mobdata_10gb+")
         everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Always online 25gb+",
                                                              callback_data="mobdata_25gb+")
-        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="for_me")
+        back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="budget_")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
         internet_keyboard_ua.row(mildly_internet_button)
@@ -588,11 +588,11 @@ async def result(call: types.CallbackQuery):
         else:
             choices = {}
 
-        prompt = "Оберіть найкращий тариф для мене на основі моїх виборів, відповідь: найкращий тариф для вас - назва тарифу:\n"
+        prompt = "Оберіть найкращий тариф для мене на основі моїх виборів, відповідь: найкращий тариф для вас - назва тарифу, обов'зково правильна назва тарифу"
         prompt += "Телефонні дзвінки: {}\n".format(choices.get('phone_call', ''))
         prompt += "Мобільний інтернет: {}\n".format(choices.get('mob_data', ''))
         prompt += "Соціальні мережі: {}\n\n".format(choices.get('social', ''))
-        prompt += "найменше уваги звертати на Бюджет: {}\n\n".format(choices.get('budget', ''))
+        prompt += "Бюджет: {}\n\n".format(choices.get('budget', ''))
 
         prompt += "Перелік тарифів:\n"
         for tariff in tariffs:
@@ -674,11 +674,11 @@ async def result(call: types.CallbackQuery):
         else:
             choices = {}
 
-        prompt = "Select the best tariff for nr based on my choices, answer only on english the answer is: the best tariff for you is the name of the tariff:\n"
+        prompt = "Select the best tariff for me based on my choices, answer only on english the answer is: the best tariff for you is the name of the tariff, important correct name of tariff"
         prompt += "Phone calls: {}\n".format(choices.get('phone_call', ''))
         prompt += "Mobile internet: {}\n".format(choices.get('mob_data', ''))
         prompt += "Social media: {}\n\n".format(choices.get('social', ''))
-        prompt += "Least important to pay attention to Budget: {}\n\n".format(choices.get('budget', ''))
+        prompt += "Budget: {}\n\n".format(choices.get('budget', ''))
 
         prompt += "List of tariffs:\n"
         for tariff in tariffs:
@@ -743,7 +743,7 @@ async def language_callback(call: types.CallbackQuery):
     if language == "ua":
         await call.message.edit_text(text="""Ви обрали українську мову🇺🇦!
 Ви завжди можете змінити мову написавши /language
-Тепер ще раз напишіть /start!
+Тепер натисніть повторно /start!
 """)
         save_language_choice(user_id, language)
         await start_taryf(call.message)
@@ -752,7 +752,7 @@ async def language_callback(call: types.CallbackQuery):
     elif language == "en":
         await call.message.edit_text(text="""You have successfully selected English🇬🇧!
 You can always change the language by writing /language
-Now type /start again!
+Now click /start again!
 """)
         save_language_choice(user_id, language)
         await start_taryf(call.message)
