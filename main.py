@@ -2,47 +2,11 @@ import asyncio
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-import json
+from jsons import *
 
 bot = Bot(token="6141417763:AAE8EH-x1TLaGh_MCrK4aIXzrvvSV3PQFGc")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
-
-
-def save_language_choice(user_id, language):
-    data = {}
-
-    try:
-        with open('answers/language_data.json', 'r') as file:
-            data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        pass
-
-    if str(user_id) in data:
-        data[str(user_id)] = language
-    else:
-        data[str(user_id)] = language
-
-    with open('answers/language_data.json', 'w') as file:
-        json.dump(data, file)
-
-
-def check_user_exists(user_id):
-    try:
-        with open('answers/language_data.json', 'r') as file:
-            data = json.load(file)
-            return str(user_id) in data
-    except (FileNotFoundError, json.JSONDecodeError):
-        return False
-
-
-def get_user_language(user_id):
-    try:
-        with open('answers/language_data.json', 'r') as file:
-            data = json.load(file)
-            return data.get(str(user_id))
-    except (FileNotFoundError, json.JSONDecodeError):
-        return None
 
 
 @dp.message_handler(commands=['start'])
@@ -355,18 +319,18 @@ async def how_much_speak(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('call_'))
 async def internet(call: types.CallbackQuery):
     phone_call = str(call.data.split('_')[1])
-    print(phone_call)
     name = call.from_user.full_name
     user_id = call.from_user.id
+    save_calls_choice(user_id, phone_call)
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
         mildly_internet_button = types.InlineKeyboardButton(text="💻📲Витрачаю помірно5-10гб",
-                                                            callback_data="mobdata_mildly_internet")
+                                                            callback_data="mobdata_mildlyinternet")
         more_internet_button = types.InlineKeyboardButton(text="📶💾Витрачаю доволі багато 10гб+",
-                                                          callback_data="mobdata_more_internet")
+                                                          callback_data="mobdata_muchinternet")
         everytime_online_button = types.InlineKeyboardButton(text="🌐🔥Завжди онлайн 25гб+",
-                                                             callback_data="mobdata_everytime_online")
+                                                             callback_data="mobdata_everytimeonline")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="for_me")
 
         internet_keyboard_ua = types.InlineKeyboardMarkup()
@@ -399,9 +363,9 @@ async def internet(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('mobdata_'))
 async def social_handler(call: types.CallbackQuery):
     mob_data = str(call.data.split('_')[1])
-    print(mob_data)
     name = call.from_user.full_name
     user_id = call.from_user.id
+    save_mobdata_choice(user_id, mob_data)
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
@@ -435,9 +399,9 @@ async def social_handler(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('social_'))
 async def finish(call: types.CallbackQuery):
     social = str(call.data.split('_')[1])
-    print(social)
     name = call.from_user.full_name
     user_id = call.from_user.id
+    save_social_choice(user_id, social)
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
