@@ -127,6 +127,8 @@ async def less_than_eighteen(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
+        tariff_name = 'Шкільний Лайф'
+        tariff_info = get_tariff_info(tariff_name)
         school_life = types.InlineKeyboardButton(text="📲Підключити",
                                                  url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/shkilniy/")
         not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
@@ -138,10 +140,18 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, оскільки вам менше 18-ти, ми пропонуємо вам тариф '*Шкільний Лайф*', який розроблений спеціально для школярів.",
+            text=f"""*{name}*, оскільки вам менше 18-ти, 
+ми пропонуємо вам тариф '*Шкільний Лайф*', який розроблений спеціально для школярів.
+
+Ціна: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
     if user_language == "en":
+        tariff_name = 'School Life'
+        tariff_info = get_tariff_info_en(tariff_name)
         school_life = types.InlineKeyboardButton(text="📲Connect",
                                                  url="https://www.lifecell.ua/uk/mobilnij-zvyazok/taryfy/shkilniy/")
         not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
@@ -153,7 +163,13 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, since you are under 18, we would suggest you the '*School Life*' tariff, which is designed specifically for schoolchildren.",
+            text=f"""*{name}*, because you are under 18, 
+we offer you the '*School Life*' tariff, which is designed specifically for schoolchildren.
+
+Price: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
 
@@ -236,20 +252,34 @@ async def for_family_handler(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
+        tariff_name = "Смарт Сім'я"
+        tariff_info = get_tariff_info(tariff_name)
         back_keyboard_ua = types.InlineKeyboardMarkup()
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
         back_keyboard_ua.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, тарифів сім'ї ще нема",
+            text=f"""*{tariff_name}*
+
+Ціна: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             reply_markup=back_keyboard_ua, parse_mode="Markdown")
 
     elif user_language == "en":
+        tariff_name = "Smart Family"
+        tariff_info = get_tariff_info_en(tariff_name)
         back_keyboard_en = types.InlineKeyboardMarkup()
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
         back_keyboard_en.row(back_button)
         await call.message.edit_text(
-            text=f"*{name}*, there are no family tariffs yet",
+            text=f"""*{tariff_name}*
+
+Price: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             reply_markup=back_keyboard_en, parse_mode="Markdown")
 
 

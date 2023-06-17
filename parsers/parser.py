@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 import json
 
 # Шлях до веб-драйвера Chrome
-webdriver_path = 'webdriver/chromedriver.exe'
+webdriver_path = '../webdriver/chromedriver.exe'
 
 # Налаштування параметрів веб-драйвера Chrome
 chrome_options = Options()
@@ -44,7 +44,7 @@ for parent_div in div_parent_elements:
         tariff_name = tariff_name_element.text.strip() if tariff_name_element else None
 
 
-        tariff_price_element = div.find('span', class_='MuiTypography-h3')
+        tariff_price_element = div.find('span', class_='MuiTypography-text5')
         tariff_price = tariff_price_element.text.strip() if tariff_price_element else None
 
         tariff_internet_elements = div.find_all('h5', class_='MuiTypography-text5')
@@ -65,7 +65,7 @@ for parent_div in div_parent_elements:
 
         results.append(result)
 
-with open('tariffs.json', 'w', encoding='utf-8') as file:
+with open('../tariffs.json', 'w', encoding='utf-8') as file:
     json.dump(results, file, ensure_ascii=False, indent=4)
 
 print("Парсинг завершено і дані збережено у файлі tariffs.json.")

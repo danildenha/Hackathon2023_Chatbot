@@ -108,3 +108,35 @@ def get_user_social(user_id):
                 return user_data.get("social")
     except (FileNotFoundError, json.JSONDecodeError):
         return None
+
+def get_tariff_info(tariff_name):
+    # Відкриття JSON-файлу
+    with open('tariffs.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    # Пошук тарифу за назвою
+    for item in data:
+        if item['Tariff name'] == tariff_name:
+            return {
+                'Tariff name': item['Tariff name'],
+                'Tariff price': item['Tariff price'],
+                'Tariff internet': item['Tariff internet'],
+                'Tariff mins': item['Tariff mins'],
+                'Social bezlim': item['Social bezlim']
+            }
+
+def get_tariff_info_en(tariff_name):
+    # Відкриття JSON-файлу
+    with open('tariffs_en.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    # Пошук тарифу за назвою
+    for item in data:
+        if item['Tariff name'] == tariff_name:
+            return {
+                'Tariff name': item['Tariff name'],
+                'Tariff price': item['Tariff price'],
+                'Tariff internet': item['Tariff internet'],
+                'Tariff mins': item['Tariff mins'],
+                'Social bezlim': item['Social bezlim']
+            }
