@@ -1,1 +1,1 @@
-# GameOFTeens2023_PYTHON By team "Кіберфронт"
+# Lifecell tariff selector By team "Кіберфронт"
