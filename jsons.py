@@ -19,15 +19,6 @@ def save_language_choice(user_id, language):
         json.dump(data, file)
 
 
-def check_user_exists(user_id):
-    try:
-        with open('answers/language_data.json', 'r') as file:
-            data = json.load(file)
-            return str(user_id) in data
-    except (FileNotFoundError, json.JSONDecodeError):
-        return False
-
-
 def get_user_language(user_id):
     try:
         with open('answers/language_data.json', 'r') as file:
@@ -63,6 +54,7 @@ def get_user_calls(user_id):
     except (FileNotFoundError, json.JSONDecodeError):
         return None
 
+
 def save_mobdata_choice(user_id, mob_data):
     data = {}
 
@@ -89,6 +81,7 @@ def get_user_mobdata(user_id):
     except (FileNotFoundError, json.JSONDecodeError):
         return None
 
+
 def save_social_choice(user_id, social):
     data = {}
 
@@ -114,7 +107,3 @@ def get_user_social(user_id):
             return data.get(str(user_id))
     except (FileNotFoundError, json.JSONDecodeError):
         return None
-
-
-
-

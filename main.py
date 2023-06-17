@@ -3,6 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from jsons import *
+from aiogram.contrib.middlewares.i18n import I18nMiddleware
 
 bot = Bot(token="6141417763:AAE8EH-x1TLaGh_MCrK4aIXzrvvSV3PQFGc")
 storage = MemoryStorage()
@@ -13,6 +14,7 @@ dp = Dispatcher(bot, storage=storage)
 async def start(message: types.Message):
     name = message.from_user.full_name
     user_id = message.from_user.id
+    user_language = get_user_language(user_id)
     await bot.send_chat_action(user_id, 'typing')
     await asyncio.sleep(0.5)
 
@@ -20,8 +22,9 @@ async def start(message: types.Message):
     lang_keyboard.add(types.InlineKeyboardButton(text="Українська🇺🇦", callback_data="lang_ua"),
                       types.InlineKeyboardButton(text="English🇬🇧", callback_data="lang_en"))
 
-    if check_user_exists(user_id):
+    if user_language:
         await start_taryf(message)
+
     else:
         await message.reply(f"""Привіт *{name}*, будьласка обери мову!  
 Hi *{name}*, please choose your language!""",
@@ -280,8 +283,10 @@ async def how_much_speak(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
-        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️Майже ніколи(до 500хв)", callback_data="call_almostnever")
-        sometimes_button = types.InlineKeyboardButton(text="💬Говорю при потребі(600 - 1000хв)", callback_data="call_sometimes")
+        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️Майже ніколи(до 500хв)",
+                                                         callback_data="call_almostnever")
+        sometimes_button = types.InlineKeyboardButton(text="💬Говорю при потребі(600 - 1000хв)",
+                                                      callback_data="call_sometimes")
         like_long_calls_button = types.InlineKeyboardButton(text="🗣️Часто заговорююся(1000-2000хв)",
                                                             callback_data="call_longcalls")
         everytime_on_phone_button = types.InlineKeyboardButton(text="📞Завжди на телефоні(нонад 2000хв)",
@@ -299,10 +304,14 @@ async def how_much_speak(call: types.CallbackQuery):
                                      parse_mode="Markdown", reply_markup=calls_keyboard_ua)
 
     elif user_language == "en":
-        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️‍Almost never (up to 500 min)", callback_data="call_almost_never")
-        sometimes_button = types.InlineKeyboardButton(text="💬I talk when needed (600 - 1000 min)", callback_data="call_sometimes")
-        like_long_calls_button = types.InlineKeyboardButton(text="🗣️I talk a lot (1000-2000 min)",  callback_data="call_long_calls")
-        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Always on the phone (over 2000 min)", callback_data="call_everytime_on_phone")
+        almost_never_button = types.InlineKeyboardButton(text="🙅‍♂️‍Almost never (up to 500 min)",
+                                                         callback_data="call_almost_never")
+        sometimes_button = types.InlineKeyboardButton(text="💬I talk when needed (600 - 1000 min)",
+                                                      callback_data="call_sometimes")
+        like_long_calls_button = types.InlineKeyboardButton(text="🗣️I talk a lot (1000-2000 min)",
+                                                            callback_data="call_long_calls")
+        everytime_on_phone_button = types.InlineKeyboardButton(text="📞Always on the phone (over 2000 min)",
+                                                               callback_data="call_everytime_on_phone")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
 
         calls_keyboard_en = types.InlineKeyboardMarkup()
@@ -459,6 +468,8 @@ async def language_callback(call: types.CallbackQuery):
 Тепер ще раз напишіть /start!
 """)
         save_language_choice(user_id, language)
+        i18n = I18nMiddleware('Lifecell Bot', f'{language}.json')
+        dp.middleware.setup(i18n)
         await start_taryf(call.message)
 
 
@@ -468,6 +479,9 @@ You can always change the language by writing /language
 Now type /start again!
 """)
         save_language_choice(user_id, language)
+        i18n = I18nMiddleware('Lifecell Bot', f'{language}.json')
+        dp.middleware.setup(i18n)
+        await start_taryf(call.message)
 
 
 if __name__ == '__main__':
