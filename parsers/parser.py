@@ -68,7 +68,7 @@ for parent_div in div_parent_elements:
 
         results.append(result)
 
-with open('../tariffs.json', 'w', encoding='utf-8') as file:
+with open('../JSON Data/tariffs.json', 'w', encoding='utf-8') as file:
     json.dump(results, file, ensure_ascii=False, indent=4)
 
 print("Парсинг завершено і дані збережено у файлі tariffs.json.")

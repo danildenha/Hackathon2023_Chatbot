@@ -1,16 +1,17 @@
 import asyncio
 import openai
 import keep_alive
+from configs import config
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from jsons import *
 
-bot = Bot(token="6101040700:AAGi3QPRHOyqnBVUTtD9Dp6yfY7Jbo_vIik")
+bot = Bot(token=config.TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-openai.api_key = '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'
+openai.api_key = config.OPENAI_API
 
 
 @dp.message_handler(commands=['start'])
@@ -566,7 +567,7 @@ async def result(call: types.CallbackQuery):
         await bot.send_chat_action(user_id, 'typing')
 
         def load_tariffs():
-            with open('tariffs.json', encoding='utf-8') as f:
+            with open('JSON Data/tariffs.json', encoding='utf-8') as f:
                 tariffs = json.load(f)
 
             restricted_tariffs = ['Шкільний Лайф', "Смарт Сім'я", 'Ґаджет']
@@ -578,7 +579,7 @@ async def result(call: types.CallbackQuery):
         tariffs = load_tariffs()
 
         def load_user_answers():
-            with open('user_answers.json', encoding='utf-8') as f:
+            with open('JSON Data/user_answers.json', encoding='utf-8') as f:
                 return json.load(f)
 
         user_answers = load_user_answers()
@@ -652,7 +653,7 @@ async def result(call: types.CallbackQuery):
         await bot.send_chat_action(user_id, 'typing')
 
         def load_tariffs():
-            with open('tariffs_en.json', encoding='utf-8') as f:
+            with open('JSON Data/tariffs_en.json', encoding='utf-8') as f:
                 tariffs = json.load(f)
 
             restricted_tariffs = ['School Life', 'Smart Family', 'Gadget']
@@ -664,7 +665,7 @@ async def result(call: types.CallbackQuery):
         tariffs = load_tariffs()
 
         def load_user_answers():
-            with open('user_answers.json', encoding='utf-8') as f:
+            with open('JSON Data/user_answers.json', encoding='utf-8') as f:
                 return json.load(f)
 
         user_answers = load_user_answers()
