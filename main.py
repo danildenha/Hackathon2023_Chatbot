@@ -255,7 +255,12 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_name = "Смарт Сім'я"
         tariff_info = get_tariff_info(tariff_name)
         back_keyboard_ua = types.InlineKeyboardMarkup()
+        connect = types.InlineKeyboardButton(text="📲Підключити",
+                                                 url="https://www.lifecell.ua/uk/mobilnij-zvyazok/smart-simya-series/")
+        not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
+        back_keyboard_ua.row(connect)
+        back_keyboard_ua.row(not_interest)
         back_keyboard_ua.row(back_button)
 
         await call.message.edit_text(
@@ -271,7 +276,12 @@ async def for_family_handler(call: types.CallbackQuery):
         tariff_name = "Smart Family"
         tariff_info = get_tariff_info_en(tariff_name)
         back_keyboard_en = types.InlineKeyboardMarkup()
+        connect = types.InlineKeyboardButton(text="📲Connect",
+                                                 url="https://www.lifecell.ua/en/mobile/smart-simya-series/")
+        not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
+        back_keyboard_en.row(connect)
+        back_keyboard_en.row(not_interest)
         back_keyboard_en.row(back_button)
         await call.message.edit_text(
             text=f"""*{tariff_name}*
@@ -290,20 +300,45 @@ async def for_family_handler(call: types.CallbackQuery):
     user_language = get_user_language(user_id)
 
     if user_language == "ua":
+        tariff_name = "Ґаджет"
+        tariff_info = get_tariff_info(tariff_name)
         back_keyboard_ua = types.InlineKeyboardMarkup()
+        connect = types.InlineKeyboardButton(text="📲Підключити",
+                                                 url="https://www.lifecell.ua/uk/mobilnij-zvyazok/gadget-series/")
+        not_interest = types.InlineKeyboardButton(text="❌Не цікаво", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Назад", callback_data="more_than_eighteen")
+        back_keyboard_ua.row(connect)
+        back_keyboard_ua.row(not_interest)
         back_keyboard_ua.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, тарифів гаджетів ще нема ще нема",
+            text=f"""*{tariff_name}*
+
+Ціна: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             reply_markup=back_keyboard_ua, parse_mode="Markdown")
 
     elif user_language == "en":
+        tariff_name = "Gadget"
+        tariff_info = get_tariff_info_en(tariff_name)
         back_keyboard_en = types.InlineKeyboardMarkup()
+        connect = types.InlineKeyboardButton(text="📲Connect",
+                                                 url="https://www.lifecell.ua/en/mobile/gadget-series/")
+        not_interest = types.InlineKeyboardButton(text="❌Not interested", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="more_than_eighteen")
+
+        back_keyboard_en.row(connect)
+        back_keyboard_en.row(not_interest)
         back_keyboard_en.row(back_button)
         await call.message.edit_text(
-            text=f"*{name}*, there are no gadget tariffs  yet",
+            text=f"""*{tariff_name}*
+
+Price: {tariff_info["Tariff price"]}
+{tariff_info["Tariff internet"]}
+{tariff_info["Tariff mins"]}
+{tariff_info["Social bezlim"]}""",
             reply_markup=back_keyboard_en, parse_mode="Markdown")
 
 

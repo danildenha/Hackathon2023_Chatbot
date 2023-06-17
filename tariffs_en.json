@@ -1,0 +1,51 @@
+[
+    {
+        "Tariff name": "Free Life",
+        "Tariff price": "from 180 UAH / 4 weeks",
+        "Tariff internet": "Internet: Unlimited",
+        "Tariff mins": "Calls: 1600 min",
+        "Social bezlim": "Unlimited to lifecell when all minutes to all numbers are over"
+    },
+    {
+        "Tariff name": "Smart Life",
+        "Tariff price": "from 120 UAH / 4 weeks",
+        "Tariff internet": "Internet: 25 GB",
+        "Tariff mins": "Calls: 800 min",
+        "Social bezlim": "Unlimited to lifecell when all minutes to all mobile numbers are over"
+    },
+    {
+        "Tariff name": "Simple Life",
+        "Tariff price": "from 90 UAH / 4 weeks",
+        "Tariff internet": "Internet: 8 GB",
+        "Tariff mins": "Calls: 300 min",
+        "Social bezlim": "Unlimited to lifecell when all minutes to all mobile numbers are over"
+    },
+    {
+        "Tariff name": "Platinum Life",
+        "Tariff price": "from 250 UAH / 4 weeks",
+        "Tariff internet": "Internet: Unlimited",
+        "Tariff mins": "Calls: 3000 min",
+        "Social bezlim": "Unlimited to lifecell when all minutes to all numbers are over"
+    },
+    {
+        "Tariff name": "School Life",
+        "Tariff price": "150 UAH / 4 weeks",
+        "Tariff internet": "Internet: 7 GB",
+        "Tariff mins": "Calls: Unlimited",
+        "Social bezlim": "Unlimited internet for social networks"
+    },
+    {
+        "Tariff name": "Gadget",
+        "Tariff price": "from 90 UAH / 12 weeks",
+        "Tariff internet": "Internet: from 150 MB to unlimited",
+        "Tariff mins": "Calls: from 15 min to 50 min",
+        "Social bezlim": "Internet in each device"
+    },
+    {
+        "Tariff name": "Smart Family",
+        "Tariff price": "from 375 UAH / 4 weeks",
+        "Tariff internet": "Internet: from 20 GB to 50 GB",
+        "Tariff mins": "Calls: from 500 min to 1500 min",
+        "Social bezlim": "Unlimited calls to lifecel"
+    }
+]
