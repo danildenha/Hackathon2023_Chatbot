@@ -105,10 +105,10 @@ async def undersood_handler(call: types.CallbackQuery):
         age_keyboard.row(back_button)
 
         await call.message.edit_text(text="""*Перше запитання*:
-Будьласка оберіть ваш вік.""", reply_markup=age_keyboard, parse_mode="Markdown")
+Будьласка оберіть ваш вік:""", reply_markup=age_keyboard, parse_mode="Markdown")
     elif user_language == "en":
-        less_than_eighteen = types.InlineKeyboardButton(text="Less than 18", callback_data="less_than_eighteen")
-        more_than_eighteen = types.InlineKeyboardButton(text="More than 18", callback_data="more_than_eighteen")
+        less_than_eighteen = types.InlineKeyboardButton(text="Below 18", callback_data="less_than_eighteen")
+        more_than_eighteen = types.InlineKeyboardButton(text="Above 18", callback_data="more_than_eighteen")
         back_button = types.InlineKeyboardButton(text="⬅ Back", callback_data="age_survey")
 
         age_keyboard = types.InlineKeyboardMarkup()
@@ -116,7 +116,7 @@ async def undersood_handler(call: types.CallbackQuery):
         age_keyboard.row(back_button)
 
         await call.message.edit_text(text="""*First question*:
-Please select your age.""", reply_markup=age_keyboard, parse_mode="Markdown")
+Please select your age:""", reply_markup=age_keyboard, parse_mode="Markdown")
 
 
 @dp.callback_query_handler(lambda call: call.data == 'less_than_eighteen')
@@ -137,7 +137,7 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, оскільки вам менше 18-ти. Тому пропонуємо вам тариф '*Шкільний Лайф*', який зроблений спеціально для школярів.",
+            text=f"*{name}*, оскільки вам менше 18-ти, ми пропонуємо вам тариф '*Шкільний Лайф*', який розроблений спеціально для школярів.",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
     if user_language == "en":
@@ -152,7 +152,7 @@ async def less_than_eighteen(call: types.CallbackQuery):
         school_life_keyboard.row(back_button)
 
         await call.message.edit_text(
-            text=f"*{name}*, because you are under 18. That's why we offer you the '*School Life*' tariff, which is specially designed for schoolchildren.",
+            text=f"*{name}*, since you are under 18, we would suggest you the '*School Life*' tariff, which is designed specifically for schoolchildren.",
             parse_mode="Markdown", reply_markup=school_life_keyboard)
 
 
