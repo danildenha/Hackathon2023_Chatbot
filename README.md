@@ -15,6 +15,6 @@ This project is a chatbot created for the "GoITeens" hackathon by Team "Кібе
     
 # Functions available
 
-    /start
-    /language
+    /start - start bot and start selecting optimal tariff
+    /language - change language
 
