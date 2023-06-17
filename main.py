@@ -6,11 +6,11 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from jsons import *
 
-bot = Bot(token="6101040700:AAGi3QPRHOyqnBVUTtD9Dp6yfY7Jbo_vIik")
+bot = Bot(token="TOKEN")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-openai.api_key = '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'
+openai.api_key = 'API-KEY'
 
 
 @dp.message_handler(commands=['start'])
